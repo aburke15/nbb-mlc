@@ -16,6 +16,7 @@ class SketchPad {
     this.isDrawing = false;
 
     this.#addEventListeners();
+    this.#addClearBtnListener();
   }
 
   #addEventListeners() {
@@ -36,10 +37,12 @@ class SketchPad {
     this.canvas.onmouseup = () => {
       this.isDrawing = false;
     };
+  }
 
-    let btn = document.querySelector("#clear");
+  #addClearBtnListener() {
+    const clearBtn = document.querySelector("#clear");
 
-    btn.addEventListener("click", () => {
+    clearBtn.addEventListener("click", () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     });
   }
