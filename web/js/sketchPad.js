@@ -11,10 +11,10 @@ class SketchPad {
     container.appendChild(this.canvas);
 
     const lineBreak = document.createElement("br");
-    const lineBreakAgain = document.createElement("br");
+    const secondLineBreak = document.createElement("br");
 
     container.appendChild(lineBreak);
-    container.appendChild(lineBreakAgain);
+    container.appendChild(secondLineBreak);
 
     this.clearBtn = document.createElement("button");
     this.clearBtn.innerHTML = "CLEAR";
@@ -29,10 +29,7 @@ class SketchPad {
 
     this.ctx = this.canvas.getContext("2d");
 
-    this.paths = [];
-    this.isDrawing = false;
-
-    this.#redraw();
+    this.reset();
 
     this.#addMouseEventListeners();
     this.#addTouchEventListeners();
@@ -79,9 +76,14 @@ class SketchPad {
 
   #addClearBtnListener() {
     this.clearBtn.onclick = () => {
-      this.paths = [];
-      this.#redraw();
+      this.reset();
     };
+  }
+
+  reset() {
+    this.paths = [];
+    this.isDrawing = false;
+    this.#redraw();
   }
 
   #addUndoBtnListener() {

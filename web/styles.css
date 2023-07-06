@@ -12,9 +12,9 @@ body {
   text-align: center;
 }
 
-/* #sketchPadContainer {
+#sketchPadContainer {
   visibility: hidden;
-} */
+}
 
 button {
   cursor: pointer;
@@ -41,4 +41,12 @@ button {
 #undoBtn:disabled:hover {
   background-color: gray;
   cursor: default;
+}
+
+#startBtn {
+  background-color: purple;
+}
+
+#nextBtn {
+  background-color: green;
 }

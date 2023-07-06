@@ -11,11 +11,15 @@
 
 <body>
     <div id="content">
-        <h1>Data Creator</h1>
+        <h1>Data Pictionary</h1>
         <div>
-            <input id="student" type="text" name="" value="">
-            <button id="advanceBtn" onclick="start();">
+            <input id="student" type="text" name="student" placeholder="Type your name..." value="">
+            <span id="instructions"></span>
+            <button id="startBtn" onclick="start();">
                 START
+            </button>
+            <button style="display: none;" id="nextBtn" onclick="next();">
+                NEXT DRAWING
             </button>
         </div>
         <br>
@@ -25,7 +29,48 @@
     <script src="js/draw.js"></script>
     <script src="js/sketchPad.js"></script>
     <script>
+        let index = 0;
+        const labels = ["car", "fish", "house", "tree", "bicycle", "guitar", "pencil", "clock"];
+
+        const data = {
+            student: null,
+            session: new Date().getTime(),
+            drawings: {}
+        }
+
         const sketchPad = new SketchPad(sketchPadContainer);
+
+        function start() {
+            if (!student.value) {
+                alert("Please type your name first.");
+                return;
+            }
+
+            data.student = student.value;
+            student.style.display = "none";
+            sketchPadContainer.style.visibility = "visible";
+
+            startBtn.style.display = "none";
+            nextBtn.style.removeProperty("display");
+
+            const label = labels[index];
+            instructions.innerHTML = "Please draw a " + label;
+        }
+
+        function next() {
+            if (sketchPad.paths.length === 0) {
+                alert("Draw something first!");
+                return;
+            }
+
+            const label = labels[index];
+            data.drawings[label] = sketchPad.paths;
+            sketchPad.reset();
+
+            index++;
+            const nextLabel = labels[index];
+            instructions.innerHTML = "Please draw a " + nextLabel;
+        }
     </script>
 </body>
 
