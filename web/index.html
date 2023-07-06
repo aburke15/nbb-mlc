@@ -4,23 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, maximum-scale=0.9,user-scalable=0">
     <title>Data Creator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="content">
-        <h1>Data Creator</h1>
+        <h1>Data Pictionary</h1>
+        <div>
+            <input id="student" type="text" name="student" placeholder="Type your name..." value="">
+            <span id="instructions"></span>
+            <button id="startBtn" onclick="start();">
+                START
+            </button>
+            <button style="display: none;" id="nextBtn" onclick="next();">
+                NEXT DRAWING
+            </button>
+        </div>
         <br>
-        <div id="sketchPadContainer"></div>
-        <br>
-        <button id="clear">Clear</button>
+        <div id="sketchPadContainer">
+        </div>
     </div>
     <script src="js/draw.js"></script>
     <script src="js/sketchPad.js"></script>
     <script>
+        let index = 0;
+        const labels = ["car", "fish", "house", "tree", "bicycle", "guitar", "pencil", "clock"];
+
+        const data = {
+            student: null,
+            session: new Date().getTime(),
+            drawings: {}
+        }
+
         const sketchPad = new SketchPad(sketchPadContainer);
+
+        function start() {
+            if (!student.value) {
+                alert("Please type your name first.");
+                return;
+            }
+
+            data.student = student.value;
+            student.style.display = "none";
+            sketchPadContainer.style.visibility = "visible";
+
+            startBtn.style.display = "none";
+            nextBtn.style.removeProperty("display");
+
+            const label = labels[index];
+            instructions.innerHTML = "Please draw a " + label;
+        }
+
+        function next() {
+            if (sketchPad.paths.length === 0) {
+                alert("Draw something first!");
+                return;
+            }
+
+            const label = labels[index];
+            data.drawings[label] = sketchPad.paths;
+            sketchPad.reset();
+
+            index++;
+            const nextLabel = labels[index];
+            instructions.innerHTML = "Please draw a " + nextLabel;
+        }
     </script>
 </body>
 

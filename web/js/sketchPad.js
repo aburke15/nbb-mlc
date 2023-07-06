@@ -1,5 +1,5 @@
 class SketchPad {
-  constructor(container, size = 400) {
+  constructor(container, size = 500) {
     this.canvas = document.createElement("canvas");
     this.canvas.width = size;
     this.canvas.height = size;
@@ -10,26 +10,45 @@ class SketchPad {
 
     container.appendChild(this.canvas);
 
+    const lineBreak = document.createElement("br");
+    const secondLineBreak = document.createElement("br");
+
+    container.appendChild(lineBreak);
+    container.appendChild(secondLineBreak);
+
+    this.clearBtn = document.createElement("button");
+    this.clearBtn.innerHTML = "CLEAR";
+    this.clearBtn.setAttribute("id", "clearBtn");
+
+    this.undoBtn = document.createElement("button");
+    this.undoBtn.innerHTML = "UNDO";
+    this.undoBtn.setAttribute("id", "undoBtn");
+
+    container.appendChild(this.clearBtn);
+    container.appendChild(this.undoBtn);
+
     this.ctx = this.canvas.getContext("2d");
 
-    this.path = [];
-    this.isDrawing = false;
+    this.reset();
 
-    this.#addEventListeners();
+    this.#addMouseEventListeners();
+    this.#addTouchEventListeners();
     this.#addClearBtnListener();
+    this.#addUndoBtnListener();
   }
 
-  #addEventListeners() {
+  #addMouseEventListeners() {
     this.canvas.onmousedown = (e) => {
       const mouse = this.#getMouse(e);
-      this.path = [mouse];
+      this.paths.push([mouse]);
       this.isDrawing = true;
     };
 
     this.canvas.onmousemove = (e) => {
       if (this.isDrawing) {
         const mouse = this.#getMouse(e);
-        this.path.push(mouse);
+        const lastPath = this.paths[this.paths.length - 1];
+        lastPath.push(mouse);
         this.#redraw();
       }
     };
@@ -39,16 +58,50 @@ class SketchPad {
     };
   }
 
-  #addClearBtnListener() {
-    const clearBtn = document.querySelector("#clear");
+  #addTouchEventListeners() {
+    this.canvas.ontouchstart = (e) => {
+      const loc = e.touches[0];
+      this.canvas.onmousedown(loc);
+    };
 
-    clearBtn.addEventListener("click", () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    });
+    this.canvas.ontouchmove = (e) => {
+      const loc = e.touches[0];
+      this.canvas.onmousemove(loc);
+    };
+
+    this.canvas.ontouchend = () => {
+      this.canvas.onmouseup();
+    };
+  }
+
+  #addClearBtnListener() {
+    this.clearBtn.onclick = () => {
+      this.reset();
+    };
+  }
+
+  reset() {
+    this.paths = [];
+    this.isDrawing = false;
+    this.#redraw();
+  }
+
+  #addUndoBtnListener() {
+    this.undoBtn.onclick = () => {
+      this.paths.pop();
+      this.#redraw();
+    };
   }
 
   #redraw() {
-    draw.path(this.ctx, this.path);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    draw.paths(this.ctx, this.paths);
+
+    if (this.paths.length > 0) {
+      this.undoBtn.disabled = false;
+    } else {
+      this.undoBtn.disabled = true;
+    }
   }
 
   #getMouse(e) {
