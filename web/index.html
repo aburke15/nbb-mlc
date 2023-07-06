@@ -21,6 +21,9 @@
             <button style="display: none;" id="nextBtn" onclick="next();">
                 NEXT DRAWING
             </button>
+            <button style="display: none;" id="saveBtn" onclick="save();">
+                SAVE
+            </button>
         </div>
         <br>
         <div id="sketchPadContainer">
@@ -68,8 +71,20 @@
             sketchPad.reset();
 
             index++;
-            const nextLabel = labels[index];
-            instructions.innerHTML = "Please draw a " + nextLabel;
+
+            if (index < labels.length) {
+                const nextLabel = labels[index];
+                instructions.innerHTML = "Please draw a " + nextLabel;
+            } else {
+                sketchPadContainer.style.visibility = "hidden";
+                instructions.innerHTML = "Thank you!";
+                nextBtn.style.display = "none";
+                saveBtn.style.removeProperty("display");
+            }
+        }
+
+        function save() {
+            alert("SAVED!");
         }
     </script>
 </body>
