@@ -37,6 +37,12 @@ class SketchPad {
     this.#addUndoBtnListener();
   }
 
+  reset() {
+    this.paths = [];
+    this.isDrawing = false;
+    this.#redraw();
+  }
+
   #addMouseEventListeners() {
     this.canvas.onmousedown = (e) => {
       const mouse = this.#getMouse(e);
@@ -78,12 +84,6 @@ class SketchPad {
     this.clearBtn.onclick = () => {
       this.reset();
     };
-  }
-
-  reset() {
-    this.paths = [];
-    this.isDrawing = false;
-    this.#redraw();
   }
 
   #addUndoBtnListener() {
