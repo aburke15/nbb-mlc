@@ -11,18 +11,24 @@ class SketchPad {
     container.appendChild(this.canvas);
 
     const lineBreak = document.createElement("br");
-    const secondLineBreak = document.createElement("br");
+    const anotherLineBreak = document.createElement("br");
 
     container.appendChild(lineBreak);
-    container.appendChild(secondLineBreak);
+    container.appendChild(anotherLineBreak);
 
-    this.clearBtn = document.createElement("button");
-    this.clearBtn.innerHTML = "CLEAR";
-    this.clearBtn.setAttribute("id", "clearBtn");
+    this.clearBtn = this.#createElement({
+      element: "button",
+      innerHTML: "CLEAR",
+      attribute: "id",
+      attributeName: "clearBtn",
+    });
 
-    this.undoBtn = document.createElement("button");
-    this.undoBtn.innerHTML = "UNDO";
-    this.undoBtn.setAttribute("id", "undoBtn");
+    this.undoBtn = this.#createElement({
+      element: "button",
+      innerHTML: "UNDO",
+      attribute: "id",
+      attributeName: "undoBtn",
+    });
 
     container.appendChild(this.clearBtn);
     container.appendChild(this.undoBtn);
@@ -41,6 +47,14 @@ class SketchPad {
     this.paths = [];
     this.isDrawing = false;
     this.#redraw();
+  }
+
+  #createElement(data) {
+    const element = document.createElement(data.element);
+    element.innerHTML = data.innerHTML;
+    element.setAttribute(data.attribute, data.attributeName);
+
+    return element;
   }
 
   #addMouseEventListeners() {
