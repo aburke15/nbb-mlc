@@ -1,5 +1,5 @@
 class SketchPad {
-  constructor(container, size = 500) {
+  constructor(container, size = 400) {
     this.canvas = document.createElement("canvas");
     this.canvas.width = size;
     this.canvas.height = size;
@@ -73,7 +73,7 @@ class SketchPad {
       }
     };
 
-    this.canvas.onmouseup = () => {
+    document.onmouseup = () => {
       this.isDrawing = false;
     };
   }
@@ -89,8 +89,8 @@ class SketchPad {
       this.canvas.onmousemove(loc);
     };
 
-    this.canvas.ontouchend = () => {
-      this.canvas.onmouseup();
+    document.ontouchend = () => {
+      document.onmouseup();
     };
   }
 
@@ -111,11 +111,8 @@ class SketchPad {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     draw.paths(this.ctx, this.paths);
 
-    if (this.paths.length > 0) {
-      this.undoBtn.disabled = false;
-    } else {
-      this.undoBtn.disabled = true;
-    }
+    if (this.paths.length > 0) this.undoBtn.disabled = false;
+    else this.undoBtn.disabled = true;
   }
 
   #getMouse(e) {
