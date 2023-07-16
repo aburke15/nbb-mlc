@@ -86,19 +86,20 @@
         function save() {
             instructions.innerHTML = "Take your downloaded file and place it alongside the others in the dataset!";
 
-            const element = document.createElement("a");
+            const anchor = document.createElement("a");
 
-            element.setAttribute("href",
+            anchor.setAttribute("href",
                 "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(data))
             );
 
             const fileName = data.session + ".json";
-            element.setAttribute("download", fileName);
+            anchor.setAttribute("download", fileName);
 
-            element.style.display = "none";
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+            anchor.style.display = "none";
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            saveBtn.style.display = "none";
         }
     </script>
 </body>
