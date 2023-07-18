@@ -1,0 +1,23 @@
+{
+  "name": "nbb-mlc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aburke15/nbb-mlc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aburke15/nbb-mlc/issues"
+  },
+  "homepage": "https://github.com/aburke15/nbb-mlc#readme",
+  "dependencies": {
+    "canvas": "^2.11.2"
+  }
+}

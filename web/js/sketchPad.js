@@ -120,3 +120,7 @@ class SketchPad {
     return [Math.round(e.clientX - rect.left), Math.round(e.clientY - rect.top)];
   }
 }
+
+if (typeof module !== "undefined") {
+  module.exports = SketchPad;
+}
