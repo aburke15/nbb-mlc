@@ -24,15 +24,22 @@ fileNames.forEach((fileName) => {
     });
 
     const paths = drawings[label];
-    fs.writeFileSync(`${constants.JSON_DIR}/${id}.json`, JSON.stringify(paths));
 
+    // writes the paths (an array of arrays) to a file in the json dir
+    fs.writeFileSync(`${constants.JSON_DIR}/${id}.json`, JSON.stringify(paths));
     generateImageFiles(`${constants.IMG_DIR}/${id}.png`, paths);
+
+    // prints the progress of writing all of the files
     utils.printProgress(id, fileNames.length * 8);
     id++;
   }
 });
 
+// writes all objs in samples array to a file called samples.json
+// in the data folder
 fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
+
+fs.writeFileSync(constants.SAMPLES_JS, `const samples = ${JSON.stringify(samples)};`);
 
 function generateImageFiles(outFile, paths) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
