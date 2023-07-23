@@ -12,8 +12,13 @@
     <h1>Data Viewer</h1>
     <div id="container"></div>
     <script src="../common/js_objects/samples.js"></script>
-    <script src="../common/js_objects/constants.js"></script>
-    <script src="../common/js_objects/utils.js"></script>
+    <script src="../common/contants.js"></script>
+    <script src="../common/utils.js"></script>
+
+    <script>
+        const groups = utils.groupBy(samples, "student_id");
+        console.log(groups);
+    </script>
 </body>
 
 </html>
